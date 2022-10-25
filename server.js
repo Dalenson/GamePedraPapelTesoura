@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+server.listen(process.env.PORT || 5000, () => {
+  console.log('listening on *:'+process.env.PORT);
+});
+
 player1 = null;
 player2 = null;
 io.on('connection', (socket) => {
@@ -52,9 +56,7 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log('listening on *:3000');
-});
+
 
 
 function resultadoGame(game){
