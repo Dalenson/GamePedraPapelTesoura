@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Pedra Papel Tesoura</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+  <body><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <div class="pontuacao">
+      <a>EU</a>
+      <a>-</a>
+      <a>ELE</a>
+    </div>
+    <div class="pontuacao">
+      <a id="player1"></a>
+      <a>X</a>
+      <a id="player2"></a>
+    </div>
+    <div class="select">
+        <a class="buttonspedra" type="button" onclick="opcao('pedra')"><img src="pedra.png" class="iconButton"></img></a>
+        <a class="buttonspapel" type="button" onclick="opcao('papel')"><img src="papel.png" class="iconButton"></img></a>
+        <a class="buttonstesoura" type="button" onclick="opcao('tesoura')"><img src="tesoura.png" class="iconButton"></img></a>
+    </div>
+    <div class="menu">
+        <span class="notif">Aguardando</span>
+    </div>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./script.js" type="application/javascript"></script>
+    
+  </body>
+</html>
