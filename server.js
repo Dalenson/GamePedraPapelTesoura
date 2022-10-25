@@ -7,7 +7,8 @@ const io = new Server(server)
 const clients = {};
 app.use(express.static(__dirname));
 let game = {};
-let placar = {}
+let placar = {};
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
@@ -25,13 +26,10 @@ io.on('connection', (socket) => {
     player1 = socket.id;
   }
 
-  console.log(player1)
-  console.log(player2)
-
   //Envia inicio do game
   if(player1 && player2){
-    console.log('iniciando')
-    placar = {player1:{"placar":0, "id": player1}, player2:{"placar":0, "id": player2}}
+    placar = {player1:{"placar":0, "id": player1, "jogada": null}, player2:{"placar":0, "id": player2, "jogada": null}, status: 'online', vencedorTurno: null}
+    console.log(placar)
     clients[player1].emit('game.begin', placar)
     clients[player2].emit('game.begin', placar)
   }
@@ -39,7 +37,6 @@ io.on('connection', (socket) => {
   //Recebe jogada
   socket.on('game', (msg) => {
     game[socket.id] = msg;
-    console.log(game);
     console.log(socket.id + ' jogou --->  ' + msg);
     resultadoGame(game);
   });
@@ -68,54 +65,72 @@ function resultadoGame(game){
   if(players == 2){
     if(game[player1] == 'pedra'){
       if(game[player2] == 'pedra'){
+        placar.player1.jogada = 'pedra';
+        placar.player2.jogada = 'pedra';
         empate();
       }
     }
 
     if(game[player1] == 'pedra'){
       if(game[player2] == 'tesoura'){
+        placar.player1.jogada = 'pedra';
+        placar.player2.jogada = 'tesoura';
         ajustaPlacar(player1)
       }
     }
 
     if(game[player1] == 'pedra'){
       if(game[player2] == 'papel'){
+        placar.player1.jogada = 'pedra';
+        placar.player2.jogada = 'papel';
         ajustaPlacar(player2)
       }
     }
 
     if(game[player1] == 'papel'){
       if(game[player2] == 'papel'){
+        placar.player1.jogada = 'papel';
+        placar.player2.jogada = 'papel';
         empate();
       }
     }
 
     if(game[player1] == 'papel'){
       if(game[player2] == 'pedra'){
+        placar.player1.jogada = 'papel';
+        placar.player2.jogada = 'pedra';
         ajustaPlacar(player1)
       }
     }
 
     if(game[player1] == 'papel'){
       if(game[player2] == 'tesoura'){
+        placar.player1.jogada = 'papel';
+        placar.player2.jogada = 'tesoura';
         ajustaPlacar(player2)
       }
     }
 
     if(game[player1] == 'tesoura'){
       if(game[player2] == 'tesoura'){
+        placar.player1.jogada = 'tesoura';
+        placar.player2.jogada = 'tesoura';
         empate();
       }
     }
 
     if(game[player1] == 'tesoura'){
       if(game[player2] == 'papel'){
+        placar.player1.jogada = 'tesoura';
+        placar.player2.jogada = 'papel';
         ajustaPlacar(player1)
       }
     }
 
     if(game[player1] == 'tesoura'){
       if(game[player2] == 'pedra'){
+        placar.player1.jogada = 'tesoura';
+        placar.player2.jogada = 'pedra';
         ajustaPlacar(player2)
       }
     }
@@ -129,20 +144,23 @@ function resetGame(){
 }
 
 function ajustaPlacar(ganhador){
-  console.log(ganhador)
   if(player1 == ganhador){
     placar.player1.placar++;
+    placar.vencedorTurno = ganhador;
   }
   if(player2 == ganhador){
     placar.player2.placar++;
+    placar.vencedorTurno = ganhador;
   }
-  clients[player1].emit('proximo', true)
-  clients[player2].emit('proximo', true)
+  console.log(placar);
   clients[player1].emit('placar', placar)
   clients[player2].emit('placar', placar)
+  placar.vencedorTurno = null;
+  placar.player1.jogada = null;
+  placar.player2.jogada = null;
 }
 
 function empate(){
-  clients[player1].emit('empate', true)
-  clients[player2].emit('empate', true)
+  clients[player1].emit('empate', placar)
+  clients[player2].emit('empate', placar)
 }

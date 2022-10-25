@@ -28,7 +28,7 @@
   .buttonspedra:hover{
     width: 200px;
     height: 200px;
-    content: url('pedrahover.png');
+    content: url('images/pedrahover.png');
   }
 
   .buttonspapel{
@@ -39,7 +39,7 @@
   .buttonspapel:hover{
     width: 200px;
     height: 200px;
-    content: url('papelhover.png');
+    content: url('images/papelhover.png');
   }
   .buttonstesoura{
     width: 200px;
@@ -48,11 +48,7 @@
   .buttonstesoura:hover{
     width: 200px;
     height: 200px;
-    content: url('tesourahover.png');
-  }
-
-  .buttons:hover{
-
+    content: url('images/tesourahover.png');
   }
 
   .menu{
@@ -78,4 +74,9 @@
     font-size: 50px;
     font-weight: 900;
     margin-right: 40px;
+  }
+
+  .notif{
+    font-size: 30px;
+    font-weight: 700;
   }
